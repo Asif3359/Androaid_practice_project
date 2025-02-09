@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -31,11 +32,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import java.text.NumberFormat
+import androidx.annotation.DrawableRes
+import androidx.compose.material3.Icon
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,11 +87,13 @@ fun TipTimeLayout() {
         )
         EditNumberField(
             value = amountInput,
+            leadingIcon = R.drawable.money,
             onValueChanged = { newValue -> amountInput = newValue.toString() }, // Corrected here
             modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
         )
         EditTipField(
             value = tipInput,
+            leadingIcon = R.drawable.percentage,
             onValueChanged = { newValue -> tipInput = newValue.toString() }, // Corrected here
             modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
         )
@@ -132,9 +138,21 @@ fun RoundTheTipRow(
 }
 
 @Composable
-fun EditTipField(value: String, onValueChanged: (Any?) -> Unit, modifier: Modifier) {
+fun EditTipField(
+    value: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier,
+    leadingIcon: Int // Change this from Any to Int
+) {
     TextField(
         value = value,
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = leadingIcon),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp) // Adjust the icon size here
+            )
+        },
         singleLine = true,
         modifier = modifier,
         onValueChange = onValueChanged,
@@ -144,9 +162,21 @@ fun EditTipField(value: String, onValueChanged: (Any?) -> Unit, modifier: Modifi
 }
 
 @Composable
-fun EditNumberField(value: String, onValueChanged: (Any?) -> Unit, modifier: Modifier) {
+fun EditNumberField(
+    value: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier,
+    leadingIcon: Int // Change this from Any to Int
+) {
     TextField(
         value = value,
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = leadingIcon),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp) // Adjust the icon size here
+            )
+        },
         singleLine = true,
         modifier = modifier,
         onValueChange = onValueChanged,
@@ -154,6 +184,7 @@ fun EditNumberField(value: String, onValueChanged: (Any?) -> Unit, modifier: Mod
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }
+
 
 private fun calculateTip(amount: Double, tipPercent: Double = 15.0,  roundUp: Boolean): String {
     var tip = tipPercent / 100 * amount
