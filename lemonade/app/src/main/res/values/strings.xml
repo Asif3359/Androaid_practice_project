@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Lemonade</string>
+
+    <!-- Step 1: Selecting the lemon -->
+    <string name="lemon_select">Tap the lemon tree to select a lemon</string>
+    <string name="lemon_tree_content_description">A tree with ripe lemons ready for selection. Tap on the tree to choose a lemon.</string>
+
+    <!-- Step 2: Squeezing the lemon -->
+    <string name="lemon_squeeze">Keep tapping the lemon to squeeze it</string>
+    <string name="lemon_content_description">A lemon that you can tap to squeeze the juice. Tap to continue squeezing the lemon.</string>
+
+    <!-- Step 3: Drinking the lemonade -->
+    <string name="lemon_drink">Tap the lemon to drink it</string>
+    <string name="lemon_drink_description">A glass of fresh lemonade with a lemon slice. Tap to enjoy your drink.</string>
+
+    <!-- Step 4: Restarting the process -->
+    <string name="lemon_restart">Tap lemon to remake it</string>
+    <string name="lemon_restart_description">A lemon with a fresh slice. Tap to start the lemonade-making process again.</string>
+</resources>
