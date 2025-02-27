@@ -1,5 +1,5 @@
+import 'package:chatnine/screens/UserProfile_screen.dart';
 import 'package:chatnine/screens/chat_screen.dart';
-import 'package:chatnine/screens/contact_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -240,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'Messages':
         return const Center(child: Text('Message Page'));
       case 'Profile':
-        return const Center(child: Text('Profile Page'));
+        return const UserProfile();
       case 'Settings':
         return const Center(child: Text('Settings Page'));
       default:
@@ -265,58 +265,14 @@ class _HomeScreenState extends State<HomeScreen> {
               : CircleAvatar(backgroundImage: MemoryImage(contact.photo!)),
           title: Text(contact.displayName, style: const TextStyle(fontWeight: FontWeight.w500)),
           subtitle: Text(contact.emails.isNotEmpty ? contact.emails[0].address : 'No email', style: const TextStyle(color: Colors.grey)),
-          trailing: PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, color: Colors.blue), // 3-dot menu
-            onSelected: (value) {
-              switch (value) {
-                case 'edit':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ContactEditScreen(contact: contact),
-                    ),
-                  ).then((updatedContact) {
-                    if (updatedContact != null) {
-                      setState(() {
-                        // Update the contact list with the modified contact
-                        int index = _contacts.indexOf(contact);
-                        if (index != -1) {
-                          _contacts[index] = updatedContact;
-                        }
-                      });
-                    }
-                  });
-                  break;
-                case 'delete':
-                  _confirmDeleteContact(contact);
-                  break;
-                case 'call':
-                // Handle call action
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem<String>(
-                  value: 'edit',
-                  child: Text('Edit'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'delete',
-                  child: Text('Delete'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'call',
-                  child: Text('Call'),
-                ),
-              ];
-            },
-          ),
-            onTap: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatScreen(contact: contact),
+                builder: (context) => ChatScreen(
+                  contact: contact, // Pass full contact object
+                  contactEmail: contact.emails.isNotEmpty ? contact.emails[0].address : '', // Pass actual email
+                ),
               ),
             );
           },
@@ -324,4 +280,5 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
 }
